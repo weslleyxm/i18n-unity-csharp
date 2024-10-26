@@ -128,6 +128,19 @@ namespace Utilities.Localization
 2. **Set the Key**: In the Inspector, set the `key` field to the corresponding localization key you want to display
 3. **Initialize Localization**: Ensure that localization has been initialized in your scene by calling `Localization.Init()` before using this component
 
+## Example Repository
+  
+For practical examples of how to use the localization utility, including switching languages via a menu and common script usage, please visit our [Example Repository](https://github.com/weslleyxm/localization-examples)
+
+
+This repository includes:
+
+- **Language Switcher Menu**: A functional UI that allows users to change languages in real-time
+- **Common Script Examples**: Sample scripts demonstrating how to implement localization in various scenarios
+
+Feel free to clone the repository and explore the examples provided to better understand how to integrate and use the localization utility in your own projects
+
+
 ## API
 
 ### Methods
