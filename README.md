@@ -12,7 +12,7 @@ Lightweight internationalization for use with C#
 
 ### Installation
 
-1. **Importe de package**: Include the package in your project
+1. **Import the package**: Include the package in your project
 2. **Create Locale Files**: Add your `.ini` files in the `StreamingAssets/locales` directory. Each file should be named according to the locale (e.g., `en-US.ini`, `pt-BR.ini`)
 
 ### Sample INI File Structure
