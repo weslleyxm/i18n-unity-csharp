@@ -57,8 +57,8 @@ namespace Utilities.Localization
                     }
                     catch (System.Exception)
                     {
-                        LocaleData = null; 
-                        Debug.LogError("<color=red>Localization: </color>There was a problem reading the translation file"); 
+                        LocaleData = null;
+                        Debug.LogError("<color=red>Localization: </color>There was a problem reading the translation file");
                     }
                 }
                 else
@@ -175,6 +175,11 @@ namespace Utilities.Localization
             }
 
             return string.Empty; // Returns an empty string if the key was not found
+        }
+
+        public static bool Contains(string key)
+        {
+            return !string.IsNullOrEmpty(internal_t(key));
         }
 
         public static string t(string key)

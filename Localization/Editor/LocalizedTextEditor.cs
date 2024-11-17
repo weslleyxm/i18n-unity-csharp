@@ -2,10 +2,10 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace Utilities.Localization.InspectorEditor
+namespace Utilities.Localization.Editor
 {
     [CustomEditor(typeof(LocalizedText))]
-    public class LocalizedTextEditor : Editor
+    public class LocalizedTextEditor : UnityEditor.Editor
     {
         SerializedProperty key;
 
@@ -24,7 +24,7 @@ namespace Utilities.Localization.InspectorEditor
             }
             else
             {
-                if (string.IsNullOrEmpty(Localization.internal_t(key.stringValue)))
+                if (!Localization.Contains(key.stringValue))
                 {
                     EditorGUILayout.Space(5);
                     EditorGUILayout.HelpBox("The current localized text key was not found", MessageType.Warning);

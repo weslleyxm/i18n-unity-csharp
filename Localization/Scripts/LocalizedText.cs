@@ -15,7 +15,7 @@ namespace Utilities.Localization
                 textMesh = GetComponent<TextMeshProUGUI>() as TMP_Text
                                      ?? GetComponent<TextMeshPro>();
             }
-
+             
 #if UNITY_EDITOR 
             Translate();
             Localization.OnUpdateLocale += Translate; 
@@ -46,7 +46,7 @@ namespace Utilities.Localization
         {
             if (!string.IsNullOrEmpty(key))
             {
-                textMesh.text = Localization.t(key);
+                textMesh.text = Localization.internal_t(key); 
             }
         }
     }

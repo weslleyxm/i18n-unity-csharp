@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace Utilities.Localization.InspectorEditor
+namespace Utilities.Localization.Editor
 { 
     public class AssetDatabaseRefreshDetector : AssetPostprocessor
     {
