@@ -17,7 +17,7 @@ namespace Utilities.Localization
     public static class Localization
     {
         private static IniData LocaleData; // Holds the localization data
-        private static string CurrentLocale = "en-US"; // Default locale
+        private static string CurrentLocale = "es-ES"; // Default locale
         public static Action OnUpdateLocale; // Action to notify when locale is updated
         public static string LocalePath = $"{Application.streamingAssetsPath}/locales"; // Path to locale files
 
@@ -50,24 +50,25 @@ namespace Utilities.Localization
                         string fileContent;
                         using (var reader = new StreamReader(langPath, new UTF8Encoding(false)))
                         {
-                            fileContent = reader.ReadToEnd(); 
+                            fileContent = reader.ReadToEnd();
                         }
-                          
+
                         LocaleData = parser.Parser.Parse(fileContent);
                     }
                     catch (System.Exception)
                     {
-                        LocaleData = null;
-                        Debug.LogError("<color=red>Localization: </color>The selected translation file was not found");
+                        LocaleData = null; 
+                        Debug.LogError("<color=red>Localization: </color>There was a problem reading the translation file"); 
                     }
                 }
                 else
                 {
                     LocaleData = null;
-                    Debug.LogError("<color=red>Localization: </color>There was a problem reading the translation file");
+                    Debug.LogError("<color=red>Localization: </color>The selected translation file was not found");
                 }
 
-                OnUpdateLocale?.Invoke(); // Invokes the action to update locale
+                if (LocaleData != null)
+                    OnUpdateLocale?.Invoke(); // Invokes the action to update locale
             }
         }
 
@@ -81,7 +82,7 @@ namespace Utilities.Localization
             List<Locale> locales = new List<Locale>();
 
             foreach (var file in files)
-            { 
+            {
                 var parser = new FileIniDataParser();
                 IniData data = parser.ReadFile(file);
 
@@ -94,7 +95,7 @@ namespace Utilities.Localization
                 if (!string.IsNullOrEmpty(locale.localeName) || !string.IsNullOrEmpty(locale.abbreviation))
                 {
                     locales.Add(locale);
-                } 
+                }
             }
 
             return locales.ToArray();
@@ -127,7 +128,7 @@ namespace Utilities.Localization
         /// Gets the current locale.
         /// </summary>
         /// <returns>The current locale as a string</returns>
-        public static string GetCurrentLocale() 
+        public static string GetCurrentLocale()
         {
             return CurrentLocale; // Returns the current locale
         }
@@ -152,22 +153,22 @@ namespace Utilities.Localization
         {
             Init(); // Ensure localization data is initialized
 
-            if (string.IsNullOrEmpty(key)) 
+            if (string.IsNullOrEmpty(key))
             {
-                return ""; 
+                return "";
             }
 
             var keys = key.Split('.'); // Splits the key into parts
 
-            if (LocaleData != null) 
+            if (LocaleData != null)
             {
-                if (LocaleData.Sections.ContainsSection(keys[0])) 
+                if (LocaleData.Sections.ContainsSection(keys[0]))
                 {
-                    if (keys.Length > 1) 
+                    if (keys.Length > 1)
                     {
-                        if (LocaleData[keys[0]].ContainsKey(keys[1])) 
+                        if (LocaleData[keys[0]].ContainsKey(keys[1]))
                         {
-                            return LocaleData[keys[0]][keys[1]]; 
+                            return LocaleData[keys[0]][keys[1]];
                         }
                     }
                 }
@@ -180,7 +181,7 @@ namespace Utilities.Localization
         {
             string tValue = internal_t(key);
 
-            if (string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(tValue))
             {
                 Debug.LogError($"The localized text key \"{key}\" was not found");
                 return "";
