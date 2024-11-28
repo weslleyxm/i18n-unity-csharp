@@ -1,10 +1,8 @@
-using UnityEngine;
-using IniParser;
-using IniParser.Model;
+using UnityEngine; 
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.Generic; 
+using YamlDotNet.Serialization;
 
 namespace Utilities.Localization
 {
@@ -16,8 +14,8 @@ namespace Utilities.Localization
 
     public static class Localization
     {
-        private static IniData LocaleData; // Holds the localization data
-        private static string CurrentLocale = "es-ES"; // Default locale
+        private static Dictionary<string, Dictionary<string, string>> LocaleData; // Holds the localization data
+        private static string CurrentLocale = "en-US"; // Default locale
         public static Action OnUpdateLocale; // Action to notify when locale is updated
         public static string LocalePath = $"{Application.streamingAssetsPath}/locales"; // Path to locale files
 
@@ -39,21 +37,18 @@ namespace Utilities.Localization
         {
             if (LocaleData == null)
             {
-                string langPath = $"{LocalePath}/{CurrentLocale}.ini"; // Path to the current locale file
+                string langPath = $"{LocalePath}/{CurrentLocale}.yaml"; // Path to the current locale file
 
                 if (File.Exists(langPath)) // Checks if the locale file exists
                 {
                     try
                     {
-                        var parser = new FileIniDataParser();
-
-                        string fileContent;
-                        using (var reader = new StreamReader(langPath, new UTF8Encoding(false)))
+                        var deserializer = new DeserializerBuilder().Build();
+                         
+                        using (var reader = new StreamReader(langPath))
                         {
-                            fileContent = reader.ReadToEnd();
-                        }
-
-                        LocaleData = parser.Parser.Parse(fileContent);
+                            LocaleData = deserializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(reader);
+                        } 
                     }
                     catch (System.Exception)
                     {
@@ -78,25 +73,28 @@ namespace Utilities.Localization
         /// <returns>An array of <see cref="Locale"/> objects with populated <c>localeName</c> and <c>abbreviation</c></returns>
         public static Locale[] AvaliableLocales()
         {
-            string[] files = Directory.GetFiles(LocalePath, "*.ini");
+
+            //TODO: redo the part using yaml
+            
+            //string[] files = Directory.GetFiles(LocalePath, "*.ini");
             List<Locale> locales = new List<Locale>();
 
-            foreach (var file in files)
-            {
-                var parser = new FileIniDataParser();
-                IniData data = parser.ReadFile(file);
+            //foreach (var file in files)
+            //{
+            //    var parser = new FileIniDataParser();
+            //    IniData data = parser.ReadFile(file);
 
-                Locale locale = new Locale
-                {
-                    localeName = data["settings"]["localeName"],
-                    abbreviation = data["settings"]["abbreviation"]
-                };
+            //    Locale locale = new Locale
+            //    {
+            //        localeName = data["settings"]["localeName"],
+            //        abbreviation = data["settings"]["abbreviation"]
+            //    };
 
-                if (!string.IsNullOrEmpty(locale.localeName) || !string.IsNullOrEmpty(locale.abbreviation))
-                {
-                    locales.Add(locale);
-                }
-            }
+            //    if (!string.IsNullOrEmpty(locale.localeName) || !string.IsNullOrEmpty(locale.abbreviation))
+            //    {
+            //        locales.Add(locale);
+            //    }
+            //}
 
             return locales.ToArray();
         }
@@ -162,7 +160,7 @@ namespace Utilities.Localization
 
             if (LocaleData != null)
             {
-                if (LocaleData.Sections.ContainsSection(keys[0]))
+                if (LocaleData.ContainsKey(keys[0]))
                 {
                     if (keys.Length > 1)
                     {

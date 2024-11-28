@@ -1,0 +1,21 @@
+settings:
+  localeName: English
+  abbreviation: en-US
+
+menu:
+  main: main menu
+  options: game option
+  subtitles: subtitles
+  volume: volume
+  language: language
+  back: back
+  StartGame: Start Game
+  credits: Credits
+  ExitGame: Exit Game
+  on: on
+  off: off
+
+locales:
+  portuguese: Portuguese
+  english: English
+  spanish: Spanish
